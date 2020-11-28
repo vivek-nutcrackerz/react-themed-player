@@ -1,3 +1,9 @@
+:root {
+  --highlight-color: #93e9be;
+  --icon-focus-color: #93e9be;
+  --background-color: #000000;
+}
+
 .react-themed-player::first-child {
   width: 100%;
   padding-top: 56.25%;
@@ -10,7 +16,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: black;
+  background-color: var(--background-color);
 }
 
 .rtl-controls-container {
@@ -44,6 +50,11 @@
   flex-direction: row;
 }
 
+.rtl-controls-bottom-bar-button:hover {
+  filter: drop-shadow(0px 0px 6px var(--highlight-color));
+  cursor: pointer;
+}
+
 .rangeslider-horizontal {
   height: 5px;
   border-radius: 0px;
@@ -56,6 +67,7 @@
 
 .rangeslider-horizontal {
   height: 5px !important;
+  user-select: none;
 }
 
 .rangeslider__labels {
@@ -72,4 +84,25 @@
   height: 10px !important;
   top: 5px !important;
   left: 5px !important;
+}
+
+.rangeslider-horizontal .rangeslider__fill {
+  background-color: var(--highlight-color) !important;
+}
+
+.rangeslider-horizontal .rangeslider__handle {
+  visibility: hidden;
+}
+
+.rangeslider-horizontal:hover .rangeslider__handle{
+  visibility: visible;
+}
+
+.rangeslider-horizontal:hover {
+  cursor: pointer;
+}
+
+.rangeslider-horizontal .rangeslider__handle:focus {
+  visibility: visible;
+  outline: 0 !important;
 }

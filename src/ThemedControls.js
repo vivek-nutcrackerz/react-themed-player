@@ -7,12 +7,13 @@ export default class ThemedControls extends Component {
 
   render() {
 
-    const {theme, metadata} = this.props;
+    const {theme, metadata, playPause, playerState, setSeek} = this.props;
 
     return (
       <div className="rtl-controls-container" style={{}}>
         <ControlsTopBar theme={theme} title={metadata.title} subtitle={metadata.subtitle}/>
-        <ControlsBottomBar theme={theme}/>
+        <ControlsBottomBar theme={theme} playPause={playPause} playerState={playerState}
+          setSeek={setSeek}/>
       </div>
     );
   }

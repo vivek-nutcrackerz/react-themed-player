@@ -1,7 +1,7 @@
 {
-  "name": "react-theme-player",
+  "name": "react-themed-player",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/react-fontawesome": "^0.1.13",
@@ -39,5 +39,7 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "author": "Vivek",
+  "license": "MIT"
 }

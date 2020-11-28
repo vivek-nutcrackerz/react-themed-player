@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { convertHexToRgbA } from './utils'
-import { FaPlay, FaUndo, FaRedo, FaStepForward, FaStepBackward } from "react-icons/fa";
+import { convertHexToRgbA, formatSecsToHMS } from './utils'
+import { FaPlay, FaPause, FaUndo, FaRedo, FaStepForward, FaStepBackward } from "react-icons/fa";
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 
@@ -22,14 +22,17 @@ export default class ControlsBottomBar extends Component {
     })
   }
 
-  handleChangeReverse = (value) => {
-    this.setState({
-      reverseValue: value
-    })
+  handleChange = (value) => {
+    if (value != (this.props.playerState.progress * 1000))
+    {
+      if(this.props.playerState.playing)
+        this.props.playPause();
+      this.props.setSeek(value/1000, 'fraction');
+    }
   }
 
   render() {
-    const { theme } = this.props;
+    const { theme, playPause, playerState, setSeek } = this.props;
     const bgColor = convertHexToRgbA(theme.bgColor, 0.9);
 
     const controlsBottomBarStyle = {
@@ -45,39 +48,61 @@ export default class ControlsBottomBar extends Component {
     const iconStyle = {
       height: bottomBarHeightInt / 3,
       margin: bottomBarHeightInt / 3,
-      maxWidth: bottomBarHeightInt / 3
+      maxWidth: bottomBarHeightInt / 3,
+      '&:hover': {
+        color: "#00ff00",
+        backgroundColor: "#00ff00"
+      }
     }
 
-    console.log(iconStyle);
-    console.log(theme);
+    const textStyle = {
+      height: bottomBarHeightInt/3,
+      margin: bottomBarHeightInt/3,
+      lineHeight: (bottomBarHeightInt/3).toString()+"px",
+      fontSize: "100%", 
+      userSelect: "none"
+    }
 
     return (
       <div className="rtl-controls-bottom-bar" style={controlsBottomBarStyle}>
         <div className='rtl-controls-bottom-bar-slider'>
           <Slider
             min={0}
-            max={100}
-            value={this.state.reverseValue}
+            max={1000}
+            value={playerState.progress * 1000}
             orientation='horizontal'
             tooltip={false}
-            onChange={this.handleChangeReverse}
+            onChange={this.handleChange}
           />
         </div>
         <div className="rtl-controls-bottom-bar-buttons">
-          <div style={iconStyle}>
-            <FaPlay size={bottomBarHeightInt / 3} />
+          <div className="rtl-controls-bottom-bar-button" style={iconStyle} onClick={()=>playPause()}>
+            {
+                !playerState.playing? 
+                <FaPlay size={bottomBarHeightInt / 3} />:
+                <FaPause size={bottomBarHeightInt / 3} />
+            }
           </div>
-          <div style={iconStyle}>
+          <div className="rtl-controls-bottom-bar-button" style={iconStyle} 
+            onClick={()=>setSeek(playerState.playedSeconds - 10, 'seconds')}>
             <FaUndo size={bottomBarHeightInt / 3} />
           </div>
-          <div style={iconStyle}>
+          <div className="rtl-controls-bottom-bar-button" style={iconStyle} 
+            onClick={()=>setSeek(playerState.playedSeconds + 10, 'seconds')}>
             <FaRedo size={bottomBarHeightInt / 3} />
           </div>
-          <div style={iconStyle}>
+          <div className="rtl-controls-bottom-bar-button" style={iconStyle}>
             <FaStepBackward size={bottomBarHeightInt / 3} />
           </div>
-          <div style={iconStyle}>
+          <div className="rtl-controls-bottom-bar-button" style={iconStyle}>
             <FaStepForward size={bottomBarHeightInt / 3} />
+          </div>
+          <div className="rtl-controls-bottom-bar-time" style={textStyle}>
+            { (formatSecsToHMS(playerState.playedSeconds).toString().indexOf("NaN") == -1)?
+              formatSecsToHMS(playerState.playedSeconds).toString() + 
+                " / " + formatSecsToHMS(playerState.duration).toString() :
+              ""  
+            }
           </div>
         </div>
       </div>

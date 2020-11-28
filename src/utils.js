@@ -44,3 +44,27 @@ export const convertHexToRgbA = (hexVal, opacity) => {
       return 'rgba('+[r, g, b].join(',')+','+opacity+')'; 
   } 
 } 
+
+export const formatSecsToHMS = (sec) => {
+  let s = Number.parseInt(sec, 10);
+  let minutesStr = "", hoursStr = "", secsStr;
+  let hours = Math.floor(s / 3600);
+  s %= 3600;
+  let minutes = Math.floor(s / 60);
+  let seconds = s % 60;
+
+  if (hours > 0)
+    hoursStr = hours.toString()+":";
+
+  if (minutes < 10)
+    minutesStr = "0"+minutes.toString()+":";
+  else
+    minutesStr = minutes.toString()+":";
+
+  if (seconds < 10)
+    secsStr = "0"+seconds.toString();
+  else
+    secsStr = seconds.toString();
+
+  return hoursStr+minutesStr+secsStr;
+}
