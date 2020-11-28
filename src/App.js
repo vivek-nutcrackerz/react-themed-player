@@ -14,8 +14,8 @@ function App() {
       theme={{
         bgColor: "#000000",
         textColor: "#ffffff",
-        topBarHeight: "50px",
-        bottomBarHeight: "75px"
+        topBarHeight: "70px",
+        bottomBarHeight: "50px"
       }}/>
   );
 }
